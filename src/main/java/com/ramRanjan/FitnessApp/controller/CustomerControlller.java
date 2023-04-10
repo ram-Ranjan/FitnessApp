@@ -1,5 +1,7 @@
 package com.ramRanjan.FitnessApp.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,6 +45,12 @@ public class CustomerControlller
 		
 		return service.findCustomerbyId(id);
 	}
+	@GetMapping("/all")
+	public ResponseEntity<ResponseStructure<List<CustomerDto>>> getAllCustomers()
+	{
+		return service.getAllCustomers();
+	}
+	
 	@DeleteMapping
 	public ResponseEntity<ResponseStructure<CustomerDto>> deleteCustomer(@RequestParam int id)
 	{

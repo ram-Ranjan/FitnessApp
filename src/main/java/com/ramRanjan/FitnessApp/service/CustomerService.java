@@ -1,5 +1,8 @@
 package com.ramRanjan.FitnessApp.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -86,6 +89,30 @@ public class CustomerService {
 	}
 	else
 		throw new IdNotFoundException("Customer Id Not Present");
+		
+	}
+	
+	public  ResponseEntity<ResponseStructure<List<CustomerDto>>> getAllCustomers()
+	{
+		List<CustomerDto> dtoList = new ArrayList<CustomerDto>();
+		
+		List<Customer> list = dao.getAllCustomers();
+		for(Customer c:list)
+		{
+			CustomerDto dto=new CustomerDto();
+			dto.setCustomerId(c.getCustomerId());
+			dto.setCustomerName(c.getCustomerName());
+			dto.setCustomerEmail(c.getCustomerEmail());
+			dtoList.add(dto);
+		}
+		
+		ResponseStructure<List<CustomerDto>> structure = new ResponseStructure<List<CustomerDto>>();
+		
+		structure.setStatus(HttpStatus.FOUND.value());
+		structure.setMessage("All Customers data is displayed");
+		structure.setData(dtoList);
+		return new ResponseEntity<ResponseStructure<List<CustomerDto>>>(structure,HttpStatus.FOUND);
+		
 		
 	}
 
