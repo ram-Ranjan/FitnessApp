@@ -1,5 +1,8 @@
 package com.ramRanjan.FitnessApp.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,6 +85,7 @@ public class WorkoutPlanService {
 	{
 		WorkoutPlan plan   =dao.deleteWorkoutById(id);
 		if(plan!=null) {
+			
 		dto.setWorkoutId(plan.getWorkoutId());
 		dto.setWorkoutName(plan.getWorkoutName());
 		dto.setWorkoutDescription(plan.getWorkoutDescription());
@@ -96,6 +100,32 @@ public class WorkoutPlanService {
 	}
 	else
 		throw new IdNotFoundException("Workout Id Not Present");
+		
+	}
+	
+	
+	public  ResponseEntity<ResponseStructure<List<WorkoutPlanDto>>> getAllWorkoutPlans()
+	{
+		List<WorkoutPlanDto> dtoList = new ArrayList<WorkoutPlanDto>();
+		
+		List<WorkoutPlan> list = dao.getAllWorkoutPlans();
+		for(WorkoutPlan plan:list)
+		{
+			WorkoutPlanDto dto=new WorkoutPlanDto();
+			dto.setWorkoutId(plan.getWorkoutId());
+			dto.setWorkoutName(plan.getWorkoutName());
+			dto.setWorkoutDescription(plan.getWorkoutDescription());
+			dto.setWorkoutPrice(plan.getWorkoutPrice());	
+			dtoList.add(dto);
+		}
+		
+		ResponseStructure<List<WorkoutPlanDto>> structure = new ResponseStructure<List<WorkoutPlanDto>>();
+		
+		structure.setStatus(HttpStatus.FOUND.value());
+		structure.setMessage("All Workouts data is displayed");
+		structure.setData(dtoList);
+		return new ResponseEntity<ResponseStructure<List<WorkoutPlanDto>>>(structure,HttpStatus.FOUND);
+		
 		
 	}
 

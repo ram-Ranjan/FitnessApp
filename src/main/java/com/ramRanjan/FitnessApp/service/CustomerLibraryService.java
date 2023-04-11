@@ -1,5 +1,8 @@
 package com.ramRanjan.FitnessApp.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.ramRanjan.FitnessApp.config.ResponseStructure;
 import com.ramRanjan.FitnessApp.dao.CustomerLibraryDao;
+import com.ramRanjan.FitnessApp.dto.CustomerDto;
 import com.ramRanjan.FitnessApp.dto.CustomerLibraryDto;
+import com.ramRanjan.FitnessApp.entity.Customer;
 import com.ramRanjan.FitnessApp.entity.CustomerLibrary;
 import com.ramRanjan.FitnessApp.exception.IdNotFoundException;
 
@@ -84,6 +89,9 @@ public class CustomerLibraryService {
 		throw new IdNotFoundException("Customer library Id Not Present");
 		
 	}
+	
+	
+	
 
 	
 

@@ -10,6 +10,7 @@ import com.ramRanjan.FitnessApp.dao.AdminDao;
 import com.ramRanjan.FitnessApp.dto.AdminDto;
 import com.ramRanjan.FitnessApp.entity.Admin;
 import com.ramRanjan.FitnessApp.exception.IdNotFoundException;
+import com.ramRanjan.FitnessApp.exception.PasswordTooShortException;
 
 @Service
 public class AdminService {
@@ -21,17 +22,26 @@ public class AdminService {
 	
 	public ResponseEntity<ResponseStructure<AdminDto>> saveAdmin(Admin admin)
 	{
+		
+		if(admin.getAdminPassword().length()>6)
+		{
 		ResponseStructure<AdminDto> responseStructure= new ResponseStructure<>();
 		admin=dao.saveAdmin(admin);
+		
 		dto.setAdminId(admin.getAdminId());
 		dto.setAdminName(admin.getAdminName());
 		dto.setAdminEmail(admin.getAdminEmail());
+		
 		
 		responseStructure.setStatus(HttpStatus.CREATED.value());
 		responseStructure.setMessage("Admin has been Saved");
 		responseStructure.setData(dto);
 		return new ResponseEntity<ResponseStructure<AdminDto>>(responseStructure,HttpStatus.CREATED); 
-	}
+		}
+		else {
+			throw new PasswordTooShortException("Admin Password Shouldn't be less than 6 characters");
+		}
+		}
 	
 	public ResponseEntity<ResponseStructure<AdminDto>> updateAdmin(int id,Admin admin)
 	{

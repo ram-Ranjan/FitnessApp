@@ -1,5 +1,7 @@
 package com.ramRanjan.FitnessApp.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ramRanjan.FitnessApp.config.ResponseStructure;
+import com.ramRanjan.FitnessApp.dto.CustomerDto;
 import com.ramRanjan.FitnessApp.dto.WorkoutPlanDto;
 import com.ramRanjan.FitnessApp.entity.WorkoutPlan;
 import com.ramRanjan.FitnessApp.service.WorkoutPlanService;
@@ -43,6 +46,13 @@ public class WorkoutPlanController
 		
 		return service.findWorkoutbyId(id);
 	}
+	@GetMapping("/all")
+	public ResponseEntity<ResponseStructure<List<WorkoutPlanDto>>> getAllWorkoutPlans()
+	{
+		return service.getAllWorkoutPlans();
+	}
+	
+	
 	@DeleteMapping
 	public ResponseEntity<ResponseStructure<WorkoutPlanDto>> deleteWorkoutbyId(@RequestParam int id)
 	{

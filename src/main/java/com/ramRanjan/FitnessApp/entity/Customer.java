@@ -19,11 +19,11 @@ public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int customerId;
-	@NotNull
+	@NotNull(message = "Customer Name should not be null")
 	private String customerName;
-	@Email
+	@Email(message = "Customer Email Seems to  be invalid")
 	private String customerEmail;
-	@NotEmpty
+	@NotEmpty(message = "Customer Password should not be Empty")
 	private String customerPassword; 
 	
 	@OneToOne(cascade =CascadeType.ALL )

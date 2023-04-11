@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import lombok.Data;
 
@@ -24,11 +25,14 @@ public class WorkoutPlan {
 	private String workoutName;
 	@NotNull(message = "Workout Description shouldnt be Null")
 	private String workoutDescription;
-	@NotNull(message = "Workout Price shouldnt be Null")
+	@PositiveOrZero(message = "Workout Price should be positive")
 	private double workoutPrice;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Exercise> exercise;
+
+	
+	
 	
 
 }

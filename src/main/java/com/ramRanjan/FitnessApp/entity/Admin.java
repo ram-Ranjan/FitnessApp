@@ -20,9 +20,9 @@ public class Admin {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int adminId;
-	@NotNull
+	@NotNull(message = "Admin Name should not be null")
 	private String adminName;
-	@NotEmpty
+	@NotEmpty(message = "Admin Password should not be Empty")
 	private String adminPassword;
 	@Email(message = "Email seems to be in incorrect format")
 	private String adminEmail;

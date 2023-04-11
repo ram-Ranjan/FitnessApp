@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import lombok.Data;
 
@@ -18,11 +19,11 @@ public class CustomerSurvey {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int  customer_surveyId;
-	@NotEmpty
+	@Positive
 	private int customer_height;
-	@NotEmpty
+	@Positive
 	private int customer_weight;
-	
+	@NotEmpty
 	private String cusotmer_fitnessLevel;
 	@NotNull
 	private String customer_goal;

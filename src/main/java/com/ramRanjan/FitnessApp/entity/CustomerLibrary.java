@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -19,7 +20,7 @@ public class CustomerLibrary {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int libraryId;
-	@NotEmpty
+	@NotNull(message = "Library Name should not be null")
 	private String libraryName;
 	
 	@ManyToMany(cascade =CascadeType.ALL )
