@@ -7,7 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
@@ -27,9 +32,12 @@ public class WorkoutPlan {
 	private String workoutDescription;
 	@PositiveOrZero(message = "Workout Price should be positive")
 	private double workoutPrice;
+	@Max(3)
+	@Min(1)
+	private int workoutDifficutly;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	private List<Exercise> exercise;
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Exercise> exercises;
 
 	
 	

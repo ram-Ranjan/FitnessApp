@@ -1,4 +1,4 @@
-/**
+ /**
  * 
  */
 package com.ramRanjan.FitnessApp.dao;
@@ -59,6 +59,11 @@ public class CustomerDao {
 			return customer.get();
 		}
 		return null;
+	}
+	
+	public  Customer findByCustomerEmail(String customerEmail)
+	{
+		return repo.findByCustomerEmail(customerEmail);
 	}
 	
 	public List<Customer> getAllCustomers()

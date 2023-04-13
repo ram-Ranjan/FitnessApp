@@ -1,10 +1,10 @@
 package com.ramRanjan.FitnessApp.exception;
 
-public class PasswordTooShortException extends RuntimeException {
+public class ExerciseIdNotFoundException extends RuntimeException{
 	
 	private String message ;
 	
-	public PasswordTooShortException(String message)
+	public ExerciseIdNotFoundException(String message)
 	{
 		this.message = message;
 	}
@@ -13,6 +13,5 @@ public class PasswordTooShortException extends RuntimeException {
 	{
 		return message;
 	}
-	
 
 }

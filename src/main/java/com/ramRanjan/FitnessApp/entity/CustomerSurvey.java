@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
@@ -20,15 +20,19 @@ public class CustomerSurvey {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int  customer_surveyId;
 	@Positive
-	private int customer_height;
+	private double customer_heightInMeters;
 	@Positive
-	private int customer_weight;
-	@NotEmpty
-	private String cusotmer_fitnessLevel;
-	@NotNull
+	private double customer_weightInKgs;
+	@NotBlank(message = "customer_fitnessLevel  should not be blank")
+	@NotNull(message = "customer_fitnessLevel  should not be null")
+	private String customer_fitnessLevel;
+	@NotBlank(message = "customer_goal  should not be blank")
+	@NotNull(message = "customer_goal  should not be null")
 	private String customer_goal;
 	
-	@OneToOne(cascade =CascadeType.ALL ,mappedBy ="customerSurvey")
+	
+	@OneToOne(cascade =CascadeType.ALL)
 	private Customer customer;
+	
 
 }

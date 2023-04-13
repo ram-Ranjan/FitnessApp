@@ -22,15 +22,18 @@ public class WorkoutPlanService {
 	@Autowired
 	private WorkoutPlanDto dto;
 	
+	
 	public ResponseEntity<ResponseStructure<WorkoutPlanDto>> saveWorkout(WorkoutPlan plan)
 	{
 		ResponseStructure<WorkoutPlanDto> responseStructure= new ResponseStructure<>();
+		
+		
 		plan=dao.saveWorkout(plan);
 		dto.setWorkoutId(plan.getWorkoutId());
 		dto.setWorkoutName(plan.getWorkoutName());
 		dto.setWorkoutDescription(plan.getWorkoutDescription());
 		dto.setWorkoutPrice(plan.getWorkoutPrice());
-
+		dto.setExercises(plan.getExercises());
 
 		
 		responseStructure.setStatus(HttpStatus.CREATED.value());
@@ -41,15 +44,14 @@ public class WorkoutPlanService {
 	
 	public ResponseEntity<ResponseStructure<WorkoutPlanDto>> updateWorkout(int id,WorkoutPlan plan)
 	{
-		plan =dao.updateWorkout(id, plan);
+		plan =dao.findWorkoutbyId(id);
 		if(plan!=null) {
 		dto.setWorkoutId(plan.getWorkoutId());
 		dto.setWorkoutName(plan.getWorkoutName());
 		dto.setWorkoutDescription(plan.getWorkoutDescription());
 		dto.setWorkoutPrice(plan.getWorkoutPrice());
-
-
-	
+		dto.setExercises(plan.getExercises());
+		
 		ResponseStructure<WorkoutPlanDto> responseStructure= new ResponseStructure<>();
 		responseStructure.setStatus(HttpStatus.OK.value());
 		responseStructure.setMessage("Workout has been Updated");
@@ -69,7 +71,7 @@ public class WorkoutPlanService {
 		dto.setWorkoutName(plan.getWorkoutName());
 		dto.setWorkoutDescription(plan.getWorkoutDescription());
 		dto.setWorkoutPrice(plan.getWorkoutPrice());
-
+		dto.setExercises(plan.getExercises());
 		
 		ResponseStructure<WorkoutPlanDto> responseStructure= new ResponseStructure<>();
 		responseStructure.setStatus(HttpStatus.FOUND.value());
@@ -90,7 +92,7 @@ public class WorkoutPlanService {
 		dto.setWorkoutName(plan.getWorkoutName());
 		dto.setWorkoutDescription(plan.getWorkoutDescription());
 		dto.setWorkoutPrice(plan.getWorkoutPrice());
-
+		dto.setExercises(plan.getExercises());
 		
 		ResponseStructure<WorkoutPlanDto> responseStructure= new ResponseStructure<>();
 		responseStructure.setStatus(HttpStatus.OK.value());
@@ -116,6 +118,8 @@ public class WorkoutPlanService {
 			dto.setWorkoutName(plan.getWorkoutName());
 			dto.setWorkoutDescription(plan.getWorkoutDescription());
 			dto.setWorkoutPrice(plan.getWorkoutPrice());	
+			dto.setExercises(plan.getExercises());
+			
 			dtoList.add(dto);
 		}
 		
@@ -128,7 +132,7 @@ public class WorkoutPlanService {
 		
 		
 	}
-
+	
 
 
 }

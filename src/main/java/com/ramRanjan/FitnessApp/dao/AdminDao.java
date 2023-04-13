@@ -17,7 +17,7 @@ import com.ramRanjan.FitnessApp.repository.AdminRepo;
  */
 
 @Repository
-public class AdminDao {
+public class AdminDao { 
 	
 	@Autowired
 	private AdminRepo repo;
@@ -56,10 +56,13 @@ public class AdminDao {
 		{
 			repo.delete(admin.get());
 			return admin.get();
-		}
+		} 
 		return null;
 	}
-	
+	public Admin findbyAdminEmail(String adminEmail)
+	{
+		return repo.findByAdminEmail(adminEmail);
+	}
 	
 	
 	

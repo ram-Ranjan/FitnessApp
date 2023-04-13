@@ -9,7 +9,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.ramRanjan.FitnessApp.entity.CustomerLibrary;
 import com.ramRanjan.FitnessApp.entity.WorkoutPlan;
 import com.ramRanjan.FitnessApp.repository.WorkoutPlanRepo;
 
@@ -51,6 +50,7 @@ public class WorkoutPlanDao {
 		return null;
 
 	}
+	
 	public  WorkoutPlan deleteWorkoutById(int id)
 	{
 		Optional<WorkoutPlan> plan = repo.findById(id);
@@ -62,7 +62,6 @@ public class WorkoutPlanDao {
 		return null;
 	}
 	
-
 	public List<WorkoutPlan> getAllWorkoutPlans()
 	{
 		return repo.findAll();

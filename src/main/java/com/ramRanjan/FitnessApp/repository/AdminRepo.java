@@ -6,4 +6,6 @@ import com.ramRanjan.FitnessApp.entity.Admin;
 
 public interface AdminRepo extends JpaRepository<Admin, Integer>{
 
+	public Admin findByAdminEmail(String adminEmail);
+	
 }

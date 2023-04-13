@@ -6,5 +6,8 @@ import com.ramRanjan.FitnessApp.entity.CustomerLibrary;
 
 public interface CustomerLibraryRepo extends JpaRepository<CustomerLibrary, Integer> {
 	
+	
+	
+	
 
 }

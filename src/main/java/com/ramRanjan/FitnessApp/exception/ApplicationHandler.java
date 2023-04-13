@@ -1,11 +1,7 @@
 package com.ramRanjan.FitnessApp.exception;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,34 +19,6 @@ import com.ramRanjan.FitnessApp.config.ResponseStructure;
 @RestControllerAdvice
 public class ApplicationHandler extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler(IdNotFoundException.class)
-	public ResponseEntity<ResponseStructure<String>> IdNotFound(IdNotFoundException ex) {
-		ResponseStructure<String> structure = new ResponseStructure<>();
-		structure.setStatus(HttpStatus.NOT_FOUND.value());
-		structure.setMessage("Id does not exist");
-		structure.setData(ex.getMessage());
-
-		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
-	}
-
-	@ExceptionHandler(ConstraintViolationException.class)
-	public ResponseEntity<ResponseStructure<Object>> handleConstraintViolationException(
-			javax.validation.ConstraintViolationException ex) {
-		List<String> errors = new ArrayList<>();
-		for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
-			errors.add(violation.getMessage(
-
-			));
-		}
-
-		ResponseStructure<Object> structure = new ResponseStructure<>();
-		structure.setStatus(HttpStatus.NOT_FOUND.value());
-		structure.setMessage("Field Validation Exception ");
-		structure.setData(errors);
-
-		return new ResponseEntity<ResponseStructure<Object>>(structure, HttpStatus.NOT_FOUND);
-
-	}
 
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
@@ -65,20 +33,73 @@ public class ApplicationHandler extends ResponseEntityExceptionHandler {
 		}
 		return new ResponseEntity<Object>(hashMap, HttpStatus.BAD_REQUEST);
 	}
-	
-	@ExceptionHandler(PasswordTooShortException.class)
-	public ResponseEntity<ResponseStructure<String>> passwordException(PasswordTooShortException ex)
-	{
-		
-		ResponseStructure<String> structure= new ResponseStructure<>();
-		structure.setStatus(HttpStatus.BAD_REQUEST.value());
-		structure.setMessage("Password too short Exception");
+	@ExceptionHandler(CustomerNotFoundByEmailException.class)
+	public ResponseEntity<ResponseStructure<String>> customerNotFoundByEmail(CustomerNotFoundByEmailException ex) {
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage("Customer Email does not exist");
 		structure.setData(ex.getMessage());
-		
-		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.BAD_REQUEST);
-		
+
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
 	}
 	
+	@ExceptionHandler(CustomerEmailAlreadyExistingException.class)
+	public ResponseEntity<ResponseStructure<String>> customerEmailAlreadyExisting(CustomerEmailAlreadyExistingException ex) {
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage("Customer Email Already exist");
+		structure.setData(ex.getMessage());
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler(IdNotFoundException.class)
+	public ResponseEntity<ResponseStructure<String>> idNotFound(IdNotFoundException ex) {
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage("Id does not exist");
+		structure.setData(ex.getMessage());
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler(AdminEmailAlreadyExistingException.class)
+	public ResponseEntity<ResponseStructure<String>> adminEmailAlreadyExisting(AdminEmailAlreadyExistingException ex) {
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage("Admin Email Already exist");
+		structure.setData(ex.getMessage());
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(AdminEmailNotFoundException.class)
+	public ResponseEntity<ResponseStructure<String>> adminEmailNotFound(AdminEmailNotFoundException ex) {
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage("Admin Email does not exist");
+		structure.setData(ex.getMessage());
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler(AdminIdNotFoundException.class)
+	public ResponseEntity<ResponseStructure<String>> adminIdNotFound(AdminIdNotFoundException ex) {
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage("Id does not exist");
+		structure.setData(ex.getMessage());
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler(WorkoutIdNotFoundException.class)
+	public ResponseEntity<ResponseStructure<String>> workoutIdNotFound(WorkoutIdNotFoundException ex) {
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage("Workout Id  does not exist");
+		structure.setData(ex.getMessage());
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler(ExerciseIdNotFoundException.class)
+	public ResponseEntity<ResponseStructure<String>> exerciseIdNotFound(ExerciseIdNotFoundException ex) {
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage("Exercise does not exist");
+		structure.setData(ex.getMessage());
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
 	
 
 }

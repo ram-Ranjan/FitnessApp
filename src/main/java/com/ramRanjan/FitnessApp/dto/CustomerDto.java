@@ -9,8 +9,10 @@ import lombok.Data;
 public class CustomerDto {
 	
 	private int customerId;
+	private long customerContact;
 	private String customerName;
 	private String customerEmail;
+
 	
 		
 	}

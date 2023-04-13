@@ -9,10 +9,11 @@ import lombok.Data;
 public class CustomerSurveyDto {
 	
 	private int  customer_surveyId;
-	private int customer_height;
-	private int customer_weight;
+	private double customer_heightInMeters;
+	private double customer_weightInKgs;
 	private String cusotmer_fitnessLevel;
 	private String customer_goal;
+	private double BMI;
 	
 
 }

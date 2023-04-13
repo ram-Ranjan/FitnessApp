@@ -1,5 +1,8 @@
 package com.ramRanjan.FitnessApp.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.ramRanjan.FitnessApp.config.ResponseStructure;
 import com.ramRanjan.FitnessApp.dao.ExerciseDao;
+import com.ramRanjan.FitnessApp.dao.WorkoutPlanDao;
 import com.ramRanjan.FitnessApp.dto.ExerciseDto;
 import com.ramRanjan.FitnessApp.entity.Exercise;
+import com.ramRanjan.FitnessApp.entity.WorkoutPlan;
 import com.ramRanjan.FitnessApp.exception.IdNotFoundException;
 
 @Service
@@ -18,10 +23,19 @@ public class ExerciseService {
 	private ExerciseDao dao;
 	@Autowired
 	private ExerciseDto dto;
+	@Autowired
+	WorkoutPlanDao  workoutDao;
 	
-	public ResponseEntity<ResponseStructure<ExerciseDto>> saveExercise(Exercise exercise)
+	public ResponseEntity<ResponseStructure<ExerciseDto>> saveExercise(Exercise exercise,int workoutId)
 	{
 		ResponseStructure<ExerciseDto> responseStructure= new ResponseStructure<>();
+		
+		WorkoutPlan workoutPlan= workoutDao.findWorkoutbyId(workoutId);
+		if(workoutPlan!=null) {
+		List<Exercise> exerciseList  = new ArrayList<>();
+		exerciseList.add(exercise);
+		workoutPlan.setExercises(exerciseList);
+		
 		exercise=dao.saveExercise(exercise);
 		dto.setExerciseId(exercise.getExerciseId());
 		dto.setExerciseName(exercise.getExerciseName());
@@ -29,13 +43,15 @@ public class ExerciseService {
 		dto.setExerciseDurationInMinutes(exercise.getExerciseDurationInMinutes());
 		dto.setExerciseMuscleTargeted(exercise.getExerciseMuscleTargeted());
 		
-
-		
 		responseStructure.setStatus(HttpStatus.CREATED.value());
 		responseStructure.setMessage("Exercise has been Saved");
 		responseStructure.setData(dto);
 		return new ResponseEntity<ResponseStructure<ExerciseDto>>(responseStructure,HttpStatus.CREATED); 
-	}
+		}
+		else {
+			throw new IdNotFoundException("Workout Id Not Found Exception");
+		}
+		}
 	
 	public ResponseEntity<ResponseStructure<ExerciseDto>> updateExercise(int id,Exercise exercise)
 	{
