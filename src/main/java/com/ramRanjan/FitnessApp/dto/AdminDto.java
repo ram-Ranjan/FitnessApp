@@ -16,6 +16,5 @@ public class AdminDto {
 	private String adminEmail;
 	
 	
-	
 
 }

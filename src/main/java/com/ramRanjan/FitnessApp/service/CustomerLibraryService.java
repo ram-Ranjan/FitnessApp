@@ -1,5 +1,8 @@
 package com.ramRanjan.FitnessApp.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +28,6 @@ public class CustomerLibraryService {
 	private CustomerLibraryDto dto;
 	@Autowired
 	private WorkoutPlanDao workoutDao;
-	
 	@Autowired
 	CustomerDao customerDao;
 	
@@ -40,6 +42,8 @@ public class CustomerLibraryService {
 
 		dto.setLibraryId(library.getLibraryId());
 		dto.setLibraryName(library.getLibraryName());
+		dto.setPlan(library.getPlan());
+
 		
 		ResponseStructure<CustomerLibraryDto> responseStructure= new ResponseStructure<>();
 
@@ -58,6 +62,8 @@ public class CustomerLibraryService {
 		if(library!=null) {
 			dto.setLibraryId(library.getLibraryId());
 			dto.setLibraryName(library.getLibraryName());
+			dto.setPlan(library.getPlan());
+
 	
 		ResponseStructure<CustomerLibraryDto> responseStructure= new ResponseStructure<>();
 		responseStructure.setStatus(HttpStatus.OK.value());
@@ -80,9 +86,13 @@ public class CustomerLibraryService {
 		if(existingWorkout!=null)
 		{
 			if(existingLibrary!=null) {
+				List<WorkoutPlan> workoutPlans =new ArrayList<>();
+				workoutPlans.add(existingWorkout);
+				existingLibrary.setPlan(workoutPlans);
 			existingLibrary =dao.updateCustomerLibrary(customerLibraryId, existingLibrary);
 			dto.setLibraryId(existingLibrary.getLibraryId());
 			dto.setLibraryName(existingLibrary.getLibraryName());
+			dto.setPlan(workoutPlans);
 			
 	
 		ResponseStructure<CustomerLibraryDto> responseStructure= new ResponseStructure<>();
@@ -105,6 +115,8 @@ public class CustomerLibraryService {
 		if(library!=null) {
 			dto.setLibraryId(library.getLibraryId());
 			dto.setLibraryName(library.getLibraryName());
+			dto.setPlan(library.getPlan());
+
 		
 		ResponseStructure<CustomerLibraryDto> responseStructure= new ResponseStructure<>();
 		responseStructure.setStatus(HttpStatus.FOUND.value());
@@ -118,11 +130,15 @@ public class CustomerLibraryService {
 	
 	public ResponseEntity<ResponseStructure<CustomerLibraryDto>> deleteCustomerLibraryById(int id)
 	{
-		CustomerLibrary library =dao.deleteCustomerLibraryById(id);
+		CustomerLibrary library =dao.findCustomerLibraryById(id);
 		if(library!=null) {
+			
 			dto.setLibraryId(library.getLibraryId());
 			dto.setLibraryName(library.getLibraryName());
-		
+			dto.setPlan(library.getPlan());
+			
+			library.setPlan(null);
+			library= dao.deleteCustomerLibraryById(id);
 		ResponseStructure<CustomerLibraryDto> responseStructure= new ResponseStructure<>();
 		responseStructure.setStatus(HttpStatus.OK.value());
 		responseStructure.setMessage("Customer library has been Deleted");

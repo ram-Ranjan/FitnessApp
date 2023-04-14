@@ -95,7 +95,7 @@ public class ApplicationHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<ResponseStructure<String>> adminIdNotFound(AdminIdNotFoundException ex) {
 		ResponseStructure<String> structure = new ResponseStructure<>();
 		structure.setStatus(HttpStatus.NOT_FOUND.value());
-		structure.setMessage("Id does not exist");
+		structure.setMessage("Admin Id does not exist");
 		structure.setData(ex.getMessage());
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
 	}
@@ -104,6 +104,14 @@ public class ApplicationHandler extends ResponseEntityExceptionHandler {
 		ResponseStructure<String> structure = new ResponseStructure<>();
 		structure.setStatus(HttpStatus.NOT_FOUND.value());
 		structure.setMessage("Workout Id  does not exist");
+		structure.setData(ex.getMessage());
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler(CustomerIdNotFoundException.class)
+	public ResponseEntity<ResponseStructure<String>> customerIdNotFound(CustomerIdNotFoundException ex) {
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage("Customer Id  does not exist");
 		structure.setData(ex.getMessage());
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
 	}

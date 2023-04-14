@@ -36,10 +36,10 @@ public class WorkoutPlanController
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "succesfully Saved"),
 	@ApiResponse(code = 400, message = "Id not found for the given Workout ID") })
 	@PostMapping
-	public ResponseEntity<ResponseStructure<WorkoutPlanDto>> saveWorkout(@Valid @RequestBody WorkoutPlan plan)
+	public ResponseEntity<ResponseStructure<WorkoutPlanDto>> saveWorkout(@Valid @RequestBody WorkoutPlan plan,@RequestParam int adminId)
 	{
 		
-		return service.saveWorkout(plan);
+		return service.saveWorkout(plan,adminId);
 	}
 	
 	@ApiOperation(value = "Update Workout ", notes = "API is used to Save Workout ")
@@ -52,7 +52,7 @@ public class WorkoutPlanController
 		return service.updateWorkout(id, plan);
 	}
 	
-	@ApiOperation(value = "Find Workout ", notes = "API is used to Update Workout ")
+	@ApiOperation(value = "Find Workout based on Id", notes = "API is used to Update Workout ")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "succesfully Updated"),
 	@ApiResponse(code = 400, message = "Id not found for the given Workout ID") })
 	@GetMapping
@@ -61,7 +61,7 @@ public class WorkoutPlanController
 		return service.findWorkoutbyId(id);
 	}	
 	
-	@ApiOperation(value = "Find Workout based on Id ", notes = "API is used to Save Workout ")
+	@ApiOperation(value = "Find All Workout  ", notes = "API is used to Save Workout ")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "succesfully Found"),
 	@ApiResponse(code = 400, message = "Id not found for the given Workout ID") })
 	@GetMapping("/all")
@@ -75,10 +75,10 @@ public class WorkoutPlanController
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "succesfully Delete"),
 	@ApiResponse(code = 400, message = "Id not found for the given Workout ID") })
 	@DeleteMapping
-	public ResponseEntity<ResponseStructure<WorkoutPlanDto>> deleteWorkoutbyId(@RequestParam int id)
+	public ResponseEntity<ResponseStructure<WorkoutPlanDto>> deleteWorkoutbyId(@RequestParam int adminId,@RequestParam int id)
 	{
 		
-		return service.deleteWorkoutById(id);
+		return service.deleteWorkoutById(adminId,id);
 	}
 	
 	

@@ -10,10 +10,15 @@ import org.springframework.stereotype.Service;
 
 import com.ramRanjan.FitnessApp.config.ResponseStructure;
 import com.ramRanjan.FitnessApp.dao.CustomerDao;
+import com.ramRanjan.FitnessApp.dao.CustomerLibraryDao;
+import com.ramRanjan.FitnessApp.dao.CustomerSurveyDao;
 import com.ramRanjan.FitnessApp.dto.CustomerDto;
 import com.ramRanjan.FitnessApp.entity.Customer;
+import com.ramRanjan.FitnessApp.entity.CustomerLibrary;
+import com.ramRanjan.FitnessApp.entity.CustomerSurvey;
 import com.ramRanjan.FitnessApp.exception.CustomerEmailAlreadyExistingException;
 import com.ramRanjan.FitnessApp.exception.CustomerNotFoundByEmailException;
+import com.ramRanjan.FitnessApp.exception.CustomerNotSignedUpException;
 import com.ramRanjan.FitnessApp.exception.IdNotFoundException;
 
 @Service
@@ -23,6 +28,10 @@ public class CustomerService {
 	private CustomerDao dao;
 	@Autowired
 	private CustomerDto dto;
+	@Autowired
+	private CustomerSurveyDao surveyDao;
+	@Autowired
+	private CustomerLibraryDao libraryDao;
 
 	public ResponseEntity<ResponseStructure<CustomerDto>> saveCustomer(Customer customer) {
 
@@ -93,8 +102,19 @@ public class CustomerService {
 	}
 
 	public ResponseEntity<ResponseStructure<CustomerDto>> deleteCustomerById(int id) {
-		Customer customer = dao.deleteCustomerById(id);
+		Customer customer = dao.findCustomerById(id);
 		if (customer != null) {
+			CustomerLibrary customerLibrary =customer.getLibrary();
+			CustomerSurvey customerSurvey = customer.getCustomerSurvey();
+			customer.setCustomerSurvey(null);
+			customer.setLibrary(null);
+			libraryDao.deleteCustomerLibraryById(customerLibrary.getLibraryId());
+			surveyDao.deleteCustomerSurveyById(customerSurvey.getCustomer_surveyId());
+			
+			
+			
+			customer = dao.deleteCustomerById(id);
+
 			dto.setCustomerId(customer.getCustomerId());
 			dto.setCustomerName(customer.getCustomerName());
 			dto.setCustomerContact(customer.getCustomerContact());
@@ -130,8 +150,8 @@ public class CustomerService {
 	
 	public ResponseEntity<ResponseStructure<CustomerDto>> findByCustomerEmailAndCustomerPassword(String customerEmail,String customerPassword) {
 
-		Customer customer = dao.findByCustomerEmail(customerEmail);
-		if (customer != null) {
+		Customer customer = dao.findByCustomerEmailAndCustomerPassword(customerEmail, customerPassword);
+			if(customer != null) {
 			dto.setCustomerId(customer.getCustomerId());
 			dto.setCustomerName(customer.getCustomerName());
 			dto.setCustomerContact(customer.getCustomerContact());
@@ -143,7 +163,7 @@ public class CustomerService {
 			responseStructure.setData(dto);
 			return new ResponseEntity<ResponseStructure<CustomerDto>>(responseStructure, HttpStatus.FOUND);
 		} else
-			throw new CustomerNotFoundByEmailException("Customer Email Not Present");
+			throw new CustomerNotSignedUpException("Customer Email Not Present");
 	}
 
 	public ResponseEntity<ResponseStructure<List<CustomerDto>>> getAllCustomers() {

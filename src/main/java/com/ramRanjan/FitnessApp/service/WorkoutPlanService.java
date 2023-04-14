@@ -9,9 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ramRanjan.FitnessApp.config.ResponseStructure;
+import com.ramRanjan.FitnessApp.dao.AdminDao;
 import com.ramRanjan.FitnessApp.dao.WorkoutPlanDao;
 import com.ramRanjan.FitnessApp.dto.WorkoutPlanDto;
+import com.ramRanjan.FitnessApp.entity.Admin;
 import com.ramRanjan.FitnessApp.entity.WorkoutPlan;
+import com.ramRanjan.FitnessApp.exception.AdminIdNotFoundException;
 import com.ramRanjan.FitnessApp.exception.IdNotFoundException;
 
 @Service
@@ -22,11 +25,20 @@ public class WorkoutPlanService {
 	@Autowired
 	private WorkoutPlanDto dto;
 	
+	@Autowired
+	private AdminDao adminDao;
 	
-	public ResponseEntity<ResponseStructure<WorkoutPlanDto>> saveWorkout(WorkoutPlan plan)
+	
+	public ResponseEntity<ResponseStructure<WorkoutPlanDto>> saveWorkout(WorkoutPlan plan,int adminId)
 	{
 		ResponseStructure<WorkoutPlanDto> responseStructure= new ResponseStructure<>();
 		
+		Admin admin = adminDao.findAdminById(adminId);
+		if(admin!=null)
+		{
+			List<WorkoutPlan> workouts=new ArrayList<>();
+			workouts.add(plan);
+			admin.setPlan(workouts);
 		
 		plan=dao.saveWorkout(plan);
 		dto.setWorkoutId(plan.getWorkoutId());
@@ -41,6 +53,10 @@ public class WorkoutPlanService {
 		responseStructure.setData(dto);
 		return new ResponseEntity<ResponseStructure<WorkoutPlanDto>>(responseStructure,HttpStatus.CREATED); 
 	}
+		else
+			throw new AdminIdNotFoundException("Admin id not present");
+	}
+	
 	
 	public ResponseEntity<ResponseStructure<WorkoutPlanDto>> updateWorkout(int id,WorkoutPlan plan)
 	{
@@ -83,9 +99,16 @@ public class WorkoutPlanService {
 		throw new IdNotFoundException("Workout Id Not Present");
 	}
 	
-	public ResponseEntity<ResponseStructure<WorkoutPlanDto>> deleteWorkoutById(int id)
+	public ResponseEntity<ResponseStructure<WorkoutPlanDto>> deleteWorkoutById(int adminId,int id)
 	{
-		WorkoutPlan plan   =dao.deleteWorkoutById(id);
+		
+		WorkoutPlan plan =dao.findWorkoutbyId(id);
+		Admin admin = adminDao.findAdminById(adminId);
+		if(admin!=null)
+		{
+			List<WorkoutPlan> workouts=new ArrayList<>();
+			workouts.add(plan);
+			admin.setPlan(null);
 		if(plan!=null) {
 			
 		dto.setWorkoutId(plan.getWorkoutId());
@@ -94,6 +117,8 @@ public class WorkoutPlanService {
 		dto.setWorkoutPrice(plan.getWorkoutPrice());
 		dto.setExercises(plan.getExercises());
 		
+		 plan   =dao.deleteWorkoutById(id);
+
 		ResponseStructure<WorkoutPlanDto> responseStructure= new ResponseStructure<>();
 		responseStructure.setStatus(HttpStatus.OK.value());
 		responseStructure.setMessage("Workout has been Deleted");
@@ -102,7 +127,9 @@ public class WorkoutPlanService {
 	}
 	else
 		throw new IdNotFoundException("Workout Id Not Present");
-		
+		}
+		else
+			throw new AdminIdNotFoundException("Admin Id Not Present");
 	}
 	
 	
