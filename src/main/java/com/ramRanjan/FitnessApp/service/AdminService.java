@@ -11,6 +11,7 @@ import com.ramRanjan.FitnessApp.dto.AdminDto;
 import com.ramRanjan.FitnessApp.entity.Admin;
 import com.ramRanjan.FitnessApp.exception.AdminEmailAlreadyExistingException;
 import com.ramRanjan.FitnessApp.exception.AdminEmailNotFoundException;
+import com.ramRanjan.FitnessApp.exception.AdminHasNotSignedUpException;
 import com.ramRanjan.FitnessApp.exception.AdminIdNotFoundException;
 import com.ramRanjan.FitnessApp.exception.IdNotFoundException;
 
@@ -102,6 +103,25 @@ public class AdminService {
 		throw new AdminEmailNotFoundException("Admin Email Not Present");
 	}
 	
+	
+
+	public ResponseEntity<ResponseStructure<AdminDto>> findAdminByEmailAndPassword(String adminEmail,String adminPassword)
+	{
+		
+		Admin admin =dao.findAdminByEmailAndPassword(adminEmail, adminPassword);
+		if(admin!=null) {
+		dto.setAdminId(admin.getAdminId());
+		dto.setAdminName(admin.getAdminName());
+		dto.setAdminEmail(admin.getAdminEmail());
+		ResponseStructure<AdminDto> responseStructure= new ResponseStructure<>();
+		responseStructure.setStatus(HttpStatus.FOUND.value());
+		responseStructure.setMessage("Admin has been Saved");
+		responseStructure.setData(dto);
+		return new ResponseEntity<ResponseStructure<AdminDto>>(responseStructure,HttpStatus.FOUND); 
+	}
+	else
+		throw new AdminHasNotSignedUpException("Admin  Not Exist with given email and password");
+	}
 	
 	public ResponseEntity<ResponseStructure<AdminDto>> deleteAdminById(int id)
 	{

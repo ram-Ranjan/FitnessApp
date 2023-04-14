@@ -27,7 +27,10 @@ public class AdminDao {
 		return repo.save(admin);
 	}
 	
-	
+	public Admin findAdminByEmailAndPassword(String adminEmail,String adminPassword)
+	{
+		return repo.findAdminByEmailAndPassword(adminEmail, adminPassword);
+	}
 	
 	public Admin updateAdmin(int id,Admin admin)
 	{

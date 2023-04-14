@@ -13,6 +13,7 @@ import com.ramRanjan.FitnessApp.dto.CustomerLibraryDto;
 import com.ramRanjan.FitnessApp.entity.Customer;
 import com.ramRanjan.FitnessApp.entity.CustomerLibrary;
 import com.ramRanjan.FitnessApp.entity.WorkoutPlan;
+import com.ramRanjan.FitnessApp.exception.CustomerIdNotFoundException;
 import com.ramRanjan.FitnessApp.exception.IdNotFoundException;
 
 @Service
@@ -32,7 +33,8 @@ public class CustomerLibraryService {
 	{		
 			
 		Customer customer = customerDao.findCustomerById(customerId);
-		
+		if(customer!=null)
+		{
 		customer.setLibrary(library);
 		library=dao.saveCustomerLibrary(library);
 
@@ -45,7 +47,10 @@ public class CustomerLibraryService {
 		responseStructure.setMessage("Customer Library has been Saved");
 		responseStructure.setData(dto);
 		return new ResponseEntity<ResponseStructure<CustomerLibraryDto>>(responseStructure,HttpStatus.CREATED); 
-	}
+		}
+		else
+			throw new CustomerIdNotFoundException("Customer id is not present");
+		}
 	
 	public ResponseEntity<ResponseStructure<CustomerLibraryDto>> updateCustomerLibrary(int id,CustomerLibrary library)
 	{

@@ -83,6 +83,15 @@ public class CustomerController
 		return service.findByCustomerEmail(customerEmail);
 	}
 	
+	@ApiOperation(value = "Find  Customer Based On Email", notes = "API is used to find  Customer based on id ")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "succesfully Found"),
+			@ApiResponse(code = 400, message = "Id not found for the given Customer ID") })
+	@GetMapping("/login")
+	public ResponseEntity<ResponseStructure<CustomerDto>> findByCustomerEmailAndCustomerPassword(@Valid @RequestParam String customerEmail,@Valid @RequestParam String customerPassword )
+	{
+		return service.findByCustomerEmailAndCustomerPassword(customerEmail, customerPassword);
+	}
+	
 	@ApiOperation(value = " Delete Customer", notes = "API is used to delete Customer ")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "succesfully Deleted"),
 			@ApiResponse(code = 400, message = "Id not found for the given Customer ID") })

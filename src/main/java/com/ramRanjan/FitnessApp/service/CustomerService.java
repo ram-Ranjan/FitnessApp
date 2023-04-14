@@ -69,7 +69,7 @@ public class CustomerService {
 				responseStructure.setData(dto);
 				return new ResponseEntity<ResponseStructure<CustomerDto>>(responseStructure, HttpStatus.OK);
 			}
-		} else
+		} else 
 			throw new IdNotFoundException("Customer Id Not Present");
 	}
 
@@ -111,6 +111,24 @@ public class CustomerService {
 	}
 
 	public ResponseEntity<ResponseStructure<CustomerDto>> findByCustomerEmail(String customerEmail) {
+
+		Customer customer = dao.findByCustomerEmail(customerEmail);
+		if (customer != null) {
+			dto.setCustomerId(customer.getCustomerId());
+			dto.setCustomerName(customer.getCustomerName());
+			dto.setCustomerContact(customer.getCustomerContact());
+			dto.setCustomerEmail(customer.getCustomerEmail());
+
+			ResponseStructure<CustomerDto> responseStructure = new ResponseStructure<>();
+			responseStructure.setStatus(HttpStatus.FOUND.value());
+			responseStructure.setMessage("Customer has been Saved");
+			responseStructure.setData(dto);
+			return new ResponseEntity<ResponseStructure<CustomerDto>>(responseStructure, HttpStatus.FOUND);
+		} else
+			throw new CustomerNotFoundByEmailException("Customer Email Not Present");
+	}
+	
+	public ResponseEntity<ResponseStructure<CustomerDto>> findByCustomerEmailAndCustomerPassword(String customerEmail,String customerPassword) {
 
 		Customer customer = dao.findByCustomerEmail(customerEmail);
 		if (customer != null) {

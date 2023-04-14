@@ -48,8 +48,14 @@ public class CustomerDao {
 			return customer.get();
 		}
 		return null;
-
+ 
 	}
+	
+	public Customer findByCustomerEmailAndCustomerPassword(String customerEmail,String customerPassword)
+	{
+		return repo.findByCustomerEmailAndCustomerPassword(customerEmail, customerPassword);
+	}
+	
 	public  Customer deleteCustomerById(int id)
 	{
 		Optional<Customer> customer = repo.findById(id);

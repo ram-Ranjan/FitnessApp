@@ -42,12 +42,19 @@ public class ApplicationHandler extends ResponseEntityExceptionHandler {
 
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
 	}
-	
 	@ExceptionHandler(CustomerEmailAlreadyExistingException.class)
 	public ResponseEntity<ResponseStructure<String>> customerEmailAlreadyExisting(CustomerEmailAlreadyExistingException ex) {
 		ResponseStructure<String> structure = new ResponseStructure<>();
 		structure.setStatus(HttpStatus.NOT_FOUND.value());
 		structure.setMessage("Customer Email Already exist");
+		structure.setData(ex.getMessage());
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler(CustomerNotSignedUpException.class)
+	public ResponseEntity<ResponseStructure<String>> customerNotSignedUp(CustomerNotSignedUpException ex) {
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage("Customer Does Not exist");
 		structure.setData(ex.getMessage());
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
 	}
@@ -64,6 +71,14 @@ public class ApplicationHandler extends ResponseEntityExceptionHandler {
 		ResponseStructure<String> structure = new ResponseStructure<>();
 		structure.setStatus(HttpStatus.NOT_FOUND.value());
 		structure.setMessage("Admin Email Already exist");
+		structure.setData(ex.getMessage());
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler(AdminHasNotSignedUpException.class)
+	public ResponseEntity<ResponseStructure<String>> adminHasNotSignedUpException(AdminHasNotSignedUpException ex) {
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage("Admin Has not Signed Up");
 		structure.setData(ex.getMessage());
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
 	}
