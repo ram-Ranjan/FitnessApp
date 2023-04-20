@@ -32,12 +32,14 @@ public class Customer {
 	@NotNull(message = "Customer Email should not be null")
 	@Email(message = "Customer Email Seems to  be invalid")
 	private String customerEmail;
+	
+	@NotBlank(message = "Customer Password should not be blank")
 	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$", message = "Password must contain at least one digit, one lowercase, one uppercase letter, one special character and must be at least 6 characters long")
 	private String customerPassword; 
 	
 	
 	
-	@OneToOne(cascade =CascadeType.ALL )
+	@OneToOne(cascade =CascadeType.ALL,mappedBy = "customer")
 	private CustomerSurvey customerSurvey;
 	
 	@OneToOne(cascade =CascadeType.ALL )

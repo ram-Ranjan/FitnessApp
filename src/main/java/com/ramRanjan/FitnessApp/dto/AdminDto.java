@@ -13,6 +13,7 @@ public class AdminDto {
 	
 	private int adminId; 
 	private String adminName;
+	private long adminContact;
 	private String adminEmail;
 	
 	

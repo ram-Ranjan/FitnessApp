@@ -3,6 +3,7 @@ package com.ramRanjan.FitnessApp.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -17,6 +18,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class ApplicationConfig {
 	
+	@Bean
 	public Docket getDocket()
 	{
 		 Contact contact = new Contact("TestYantra", "www.testyantra.com", "testyantra@gmail.com");

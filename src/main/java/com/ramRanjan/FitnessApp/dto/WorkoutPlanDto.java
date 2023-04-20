@@ -11,11 +11,15 @@ import lombok.Data;
 @Data
 @Component
 public class WorkoutPlanDto {
-	
-	private int workoutId;       
+
+	private int workoutId;
 	private String workoutName;
 	private String workoutDescription;
+	private int workoutDurationInWeeks;
+	private int workoutsPerWeek;
+	private String workoutEquipmentRequired;
 	private double workoutPrice;
-	
+	private String workoutDifficulty;
+
 	private List<Exercise> exercises;
 }

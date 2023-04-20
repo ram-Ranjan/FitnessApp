@@ -13,6 +13,7 @@ import com.ramRanjan.FitnessApp.dao.CustomerDao;
 import com.ramRanjan.FitnessApp.dao.CustomerLibraryDao;
 import com.ramRanjan.FitnessApp.dao.CustomerSurveyDao;
 import com.ramRanjan.FitnessApp.dto.CustomerDto;
+import com.ramRanjan.FitnessApp.dto.DtoConfig;
 import com.ramRanjan.FitnessApp.entity.Customer;
 import com.ramRanjan.FitnessApp.entity.CustomerLibrary;
 import com.ramRanjan.FitnessApp.entity.CustomerSurvey;
@@ -33,6 +34,9 @@ public class CustomerService {
 	@Autowired
 	private CustomerLibraryDao libraryDao;
 
+	@Autowired
+	private DtoConfig dtoConfig;
+
 	public ResponseEntity<ResponseStructure<CustomerDto>> saveCustomer(Customer customer) {
 
 		Customer existingCustomer = dao.findByCustomerEmail(customer.getCustomerEmail());
@@ -42,10 +46,7 @@ public class CustomerService {
 		else {
 			ResponseStructure<CustomerDto> responseStructure = new ResponseStructure<>();
 			customer = dao.saveCustomer(customer);
-			dto.setCustomerId(customer.getCustomerId());
-			dto.setCustomerName(customer.getCustomerName());
-			dto.setCustomerContact(customer.getCustomerContact());
-			dto.setCustomerEmail(customer.getCustomerEmail());
+			dto = dtoConfig.getCustomerDtoAttributes(customer);
 
 			responseStructure.setStatus(HttpStatus.CREATED.value());
 			responseStructure.setMessage("Customer has been Saved");
@@ -66,11 +67,21 @@ public class CustomerService {
 				throw new CustomerEmailAlreadyExistingException("Customer Email Already Present");
 			else {
 
+				updatedCustomer
+						.setCustomerName(updatedCustomer.getCustomerName() != null ? updatedCustomer.getCustomerName()
+								: existingCustomer.getCustomerName());
+				updatedCustomer.setCustomerContact(
+						updatedCustomer.getCustomerContact() > 0 ? updatedCustomer.getCustomerContact()
+								: existingCustomer.getCustomerContact());
+				updatedCustomer.setCustomerEmail(
+						updatedCustomer.getCustomerEmail() != null ? updatedCustomer.getCustomerEmail()
+								: existingCustomer.getCustomerEmail());
+				updatedCustomer.setCustomerPassword(
+						updatedCustomer.getCustomerPassword() != null ? updatedCustomer.getCustomerPassword()
+								: existingCustomer.getCustomerPassword());
+
 				updatedCustomer = dao.updateCustomer(id, updatedCustomer);
-				dto.setCustomerId(updatedCustomer.getCustomerId());
-				dto.setCustomerName(updatedCustomer.getCustomerName());
-				dto.setCustomerContact(updatedCustomer.getCustomerContact());
-				dto.setCustomerEmail(updatedCustomer.getCustomerEmail());
+				dto = dtoConfig.getCustomerDtoAttributes(updatedCustomer);
 
 				ResponseStructure<CustomerDto> responseStructure = new ResponseStructure<>();
 				responseStructure.setStatus(HttpStatus.OK.value());
@@ -78,7 +89,7 @@ public class CustomerService {
 				responseStructure.setData(dto);
 				return new ResponseEntity<ResponseStructure<CustomerDto>>(responseStructure, HttpStatus.OK);
 			}
-		} else 
+		} else
 			throw new IdNotFoundException("Customer Id Not Present");
 	}
 
@@ -86,11 +97,7 @@ public class CustomerService {
 
 		Customer customer = dao.findCustomerById(id);
 		if (customer != null) {
-			dto.setCustomerId(customer.getCustomerId());
-			dto.setCustomerName(customer.getCustomerName());
-			dto.setCustomerContact(customer.getCustomerContact());
-
-			dto.setCustomerEmail(customer.getCustomerEmail());
+			dto = dtoConfig.getCustomerDtoAttributes(customer);
 
 			ResponseStructure<CustomerDto> responseStructure = new ResponseStructure<>();
 			responseStructure.setStatus(HttpStatus.FOUND.value());
@@ -104,21 +111,16 @@ public class CustomerService {
 	public ResponseEntity<ResponseStructure<CustomerDto>> deleteCustomerById(int id) {
 		Customer customer = dao.findCustomerById(id);
 		if (customer != null) {
-			CustomerLibrary customerLibrary =customer.getLibrary();
+			CustomerLibrary customerLibrary = customer.getLibrary();
 			CustomerSurvey customerSurvey = customer.getCustomerSurvey();
 			customer.setCustomerSurvey(null);
 			customer.setLibrary(null);
 			libraryDao.deleteCustomerLibraryById(customerLibrary.getLibraryId());
 			surveyDao.deleteCustomerSurveyById(customerSurvey.getCustomer_surveyId());
-			
-			
-			
+
 			customer = dao.deleteCustomerById(id);
 
-			dto.setCustomerId(customer.getCustomerId());
-			dto.setCustomerName(customer.getCustomerName());
-			dto.setCustomerContact(customer.getCustomerContact());
-			dto.setCustomerEmail(customer.getCustomerEmail());
+			dto = dtoConfig.getCustomerDtoAttributes(customer);
 
 			ResponseStructure<CustomerDto> responseStructure = new ResponseStructure<>();
 			responseStructure.setStatus(HttpStatus.OK.value());
@@ -134,10 +136,7 @@ public class CustomerService {
 
 		Customer customer = dao.findByCustomerEmail(customerEmail);
 		if (customer != null) {
-			dto.setCustomerId(customer.getCustomerId());
-			dto.setCustomerName(customer.getCustomerName());
-			dto.setCustomerContact(customer.getCustomerContact());
-			dto.setCustomerEmail(customer.getCustomerEmail());
+			dto = dtoConfig.getCustomerDtoAttributes(customer);
 
 			ResponseStructure<CustomerDto> responseStructure = new ResponseStructure<>();
 			responseStructure.setStatus(HttpStatus.FOUND.value());
@@ -147,15 +146,13 @@ public class CustomerService {
 		} else
 			throw new CustomerNotFoundByEmailException("Customer Email Not Present");
 	}
-	
-	public ResponseEntity<ResponseStructure<CustomerDto>> findByCustomerEmailAndCustomerPassword(String customerEmail,String customerPassword) {
+
+	public ResponseEntity<ResponseStructure<CustomerDto>> findByCustomerEmailAndCustomerPassword(String customerEmail,
+			String customerPassword) {
 
 		Customer customer = dao.findByCustomerEmailAndCustomerPassword(customerEmail, customerPassword);
-			if(customer != null) {
-			dto.setCustomerId(customer.getCustomerId());
-			dto.setCustomerName(customer.getCustomerName());
-			dto.setCustomerContact(customer.getCustomerContact());
-			dto.setCustomerEmail(customer.getCustomerEmail());
+		if (customer != null) {
+			dto = dtoConfig.getCustomerDtoAttributes(customer);
 
 			ResponseStructure<CustomerDto> responseStructure = new ResponseStructure<>();
 			responseStructure.setStatus(HttpStatus.FOUND.value());
@@ -170,12 +167,10 @@ public class CustomerService {
 		List<CustomerDto> dtoList = new ArrayList<CustomerDto>();
 
 		List<Customer> list = dao.getAllCustomers();
-		for (Customer c : list) {
+		for (Customer customer : list) {
 			CustomerDto dto = new CustomerDto();
-			dto.setCustomerId(c.getCustomerId());
-			dto.setCustomerName(c.getCustomerName());
-			dto.setCustomerContact(c.getCustomerContact());
-			dto.setCustomerEmail(c.getCustomerEmail());
+			dto = dtoConfig.getCustomerDtoAttributes(customer);
+
 			dtoList.add(dto);
 		}
 		ResponseStructure<List<CustomerDto>> structure = new ResponseStructure<List<CustomerDto>>();

@@ -24,57 +24,46 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/exercise")
-public class ExerciseController 
-{
+public class ExerciseController {
 	@Autowired
 	private ExerciseService service;
-	
-	
+
 	@ApiOperation(value = "Save Exercise", notes = "API is used to Save exercise ")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "succesfully Saved"),
-	@ApiResponse(code = 400, message = "Id not found for the given exercise ID") })
+			@ApiResponse(code = 400, message = "Id not found for the given exercise ID") })
 	@PostMapping
-	public ResponseEntity<ResponseStructure<ExerciseDto>> saveExercise(@Valid @RequestBody Exercise exercise,int workoutId)
-	{
-		
-		return service.saveExercise(exercise,workoutId);
+	public ResponseEntity<ResponseStructure<ExerciseDto>> saveExercise(@Valid @RequestBody Exercise exercise,
+			int workoutId) {
+
+		return service.saveExercise(exercise, workoutId);
 	}
-	
-	
+
 	@ApiOperation(value = "Update Exercise ", notes = "API is used to Update exercise ")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "succesfully Saved"),
-	@ApiResponse(code = 400, message = "Id not found for the given exercise ID") })
+			@ApiResponse(code = 400, message = "Id not found for the given exercise ID") })
 	@PutMapping
-	public ResponseEntity<ResponseStructure<ExerciseDto>> updateExercise(@Valid @RequestParam int id,@RequestBody Exercise exercise)
-	{
-		
-		return service.updateExercise(id, exercise);
+	public ResponseEntity<ResponseStructure<ExerciseDto>> updateExercise(@Valid @RequestParam int exerciseId,
+			@RequestBody Exercise exercise) {
+
+		return service.updateExercise(exerciseId, exercise);
 	}
-	
+
 	@ApiOperation(value = "Find Exercise based on Id", notes = "API is used to find exercise ")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "succesfully Saved"),
-	@ApiResponse(code = 400, message = "Id not found for the given exercise ID") })
+			@ApiResponse(code = 400, message = "Id not found for the given exercise ID") })
 	@GetMapping
-	public ResponseEntity<ResponseStructure<ExerciseDto>> findExerciseById(@RequestParam int id)
-	{
-		
-		return service.findExercisebyId(id);
+	public ResponseEntity<ResponseStructure<ExerciseDto>> findExerciseById(@RequestParam int exerciseId) {
+
+		return service.findExercisebyId(exerciseId);
 	}
-	
-	
+
 	@ApiOperation(value = "Delete  Exercise", notes = "API is used to Save Exercise ")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "succesfully Saved"),
-	@ApiResponse(code = 400, message = "Id not found for the given Exercise ID") })
+			@ApiResponse(code = 400, message = "Id not found for the given Exercise ID") })
 	@DeleteMapping
-	public ResponseEntity<ResponseStructure<ExerciseDto>> deleteExercisebyId(@RequestParam int id)
-	{
-		
-		return service.deleteExerciseById(id);
-	}
-	
-	
-	
-	
-}
-	
+	public ResponseEntity<ResponseStructure<ExerciseDto>> deleteExercisebyId(@RequestParam int exerciseId) {
 
+		return service.deleteExerciseById(exerciseId);
+	}
+
+}

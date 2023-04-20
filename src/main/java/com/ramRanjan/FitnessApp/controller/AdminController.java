@@ -30,7 +30,7 @@ public class AdminController {
 
 	@ApiOperation(value = "Save Admin", notes = "API is used to save Admin ")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "succesfully created"),
-	@ApiResponse(code = 400, message = "Id not found for the given Admin ID") })
+			@ApiResponse(code = 400, message = "Id not found for the given Admin ID") })
 	@PostMapping
 	public ResponseEntity<ResponseStructure<AdminDto>> saveAdmin(@Valid @RequestBody Admin admin) {
 
@@ -39,7 +39,7 @@ public class AdminController {
 
 	@ApiOperation(value = "Update Admin", notes = "API is used to save Admin ")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "succesfully Updated"),
-	@ApiResponse(code = 400, message = "Id not found for the given Admin ID") })
+			@ApiResponse(code = 400, message = "Id not found for the given Admin ID") })
 	@PutMapping
 	public ResponseEntity<ResponseStructure<AdminDto>> updateAdmin(@Valid @RequestParam int adminId,
 			@RequestBody Admin admin) {
@@ -49,7 +49,7 @@ public class AdminController {
 
 	@ApiOperation(value = "Find Admin Based on Id", notes = "API is used to Find Admin ")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "succesfully Found"),
-	@ApiResponse(code = 400, message = "Id not found for the given Admin ID") })
+			@ApiResponse(code = 400, message = "Id not found for the given Admin ID") })
 	@GetMapping
 	public ResponseEntity<ResponseStructure<AdminDto>> findAdminById(@RequestParam int adminId) {
 
@@ -58,7 +58,7 @@ public class AdminController {
 
 	@ApiOperation(value = "Find Admin Based on Email", notes = "API is used to Find Admin ")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "succesfully Found"),
-	@ApiResponse(code = 400, message = "Email not found for the given adminEmail") })
+			@ApiResponse(code = 400, message = "Email not found for the given adminEmail") })
 	@GetMapping("/email")
 	public ResponseEntity<ResponseStructure<AdminDto>> findByAdminEmail(@RequestParam String adminEmail) {
 
@@ -67,16 +67,16 @@ public class AdminController {
 
 	@ApiOperation(value = "Login Admin Based on Email and Password", notes = "API is used to Find Admin ")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "succesfully Found"),
-	@ApiResponse(code = 400, message = "Email not found for the given adminEmail") })
+			@ApiResponse(code = 400, message = "Email not found for the given adminEmail") })
 	@GetMapping("/login")
-	public ResponseEntity<ResponseStructure<AdminDto>> findAdminByEmailAndPassword(@Valid @RequestParam String adminEmail,@Valid @RequestParam String adminPassword) 
-	{
+	public ResponseEntity<ResponseStructure<AdminDto>> findAdminByEmailAndPassword(
+			@Valid @RequestParam String adminEmail, @Valid @RequestParam String adminPassword) {
 		return service.findAdminByEmailAndPassword(adminEmail, adminPassword);
 	}
 
 	@ApiOperation(value = "Delete Admin Based on Id", notes = "API is used to Delete Admin ")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "succesfully Deleted"),
-	@ApiResponse(code = 400, message = "Id not found for the given Admin ID") })
+			@ApiResponse(code = 400, message = "Id not found for the given Admin ID") })
 	@DeleteMapping
 	public ResponseEntity<ResponseStructure<AdminDto>> deleteAdmin(@RequestParam int adminId) {
 		return service.deleteAdminById(adminId);

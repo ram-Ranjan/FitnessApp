@@ -50,6 +50,17 @@ public class ApplicationHandler extends ResponseEntityExceptionHandler {
 		structure.setData(ex.getMessage());
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
 	}
+	
+	@ExceptionHandler(NoWorkoutsFoundException.class)
+	public ResponseEntity<ResponseStructure<String>> workoutsNotPresent(NoWorkoutsFoundException ex) {
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage("Workouts are not added");
+		structure.setData(ex.getMessage());
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
+	
+	
 	@ExceptionHandler(CustomerNotSignedUpException.class)
 	public ResponseEntity<ResponseStructure<String>> customerNotSignedUp(CustomerNotSignedUpException ex) {
 		ResponseStructure<String> structure = new ResponseStructure<>();

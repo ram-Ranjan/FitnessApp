@@ -62,6 +62,11 @@ public class WorkoutPlanDao {
 		return null;
 	}
 	
+	public List<WorkoutPlan> findWorkoutBasedOnDifficulty(String workoutDifficulty)
+	{
+		return repo.findWorkoutBasedOnDifficulty(workoutDifficulty);
+	}
+	
 	public List<WorkoutPlan> getAllWorkoutPlans()
 	{
 		return repo.findAll();

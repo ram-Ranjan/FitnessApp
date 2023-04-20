@@ -20,11 +20,26 @@ public class Exercise {
 	@NotBlank(message = "exerciseName  should not be blank")
 	@NotNull(message = "exerciseName  should not be null")
 	private String exerciseName;
+	
+	@NotBlank(message = "exerciseDescription  should not be blank")
+	@NotNull(message = "exerciseDescription  should not be null")
+	private String exerciseOverview;
+	
+	@NotBlank(message = "exerciseDescription  should not be blank")
+	@NotNull(message = "exerciseDescription  should not be null")
+	private String exerciseInstructions;
+	
+	@NotBlank(message = "exerciseDescription  should not be blank")
+	private String exerciseEquipment;
+	
 	@Positive(message = "Exercise Reps should greater then 0")
-	private int exerciseReps;
+	private int exerciseSets;
+	
+	@Positive(message = "Exercise Reps should greater then 0")
+	private int exerciseRepsPerSet;
 	@Positive(message = "Exercise duration should greater then 0")
 	private int exerciseDurationInMinutes;
-	@NotBlank(message = "exerciseMuscleTargete  should not be blank")
+	@NotBlank(message = "exerciseMuscleTargeted  should not be blank")
 	@NotNull(message = "exerciseMuscleTargeted  should not be null")
 	private String exerciseMuscleTargeted;
 	

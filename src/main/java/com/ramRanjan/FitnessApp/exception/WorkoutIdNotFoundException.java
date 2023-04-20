@@ -1,7 +1,7 @@
 package com.ramRanjan.FitnessApp.exception;
 
 public class WorkoutIdNotFoundException extends RuntimeException{
-	
+
 	private String message ;
 	
 	public WorkoutIdNotFoundException(String message)

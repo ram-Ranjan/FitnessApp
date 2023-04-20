@@ -24,58 +24,47 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/survey")
-public class CustomerSurveyController 
-{
+public class CustomerSurveyController {
 	@Autowired
 	private CustomerSurveyService service;
-	
-	
+
 	@ApiOperation(value = "Save  Customer Survey", notes = "API is used to Save Customer Survey ")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "succesfully Saved"),
-	@ApiResponse(code = 400, message = "Id not found for the given Customer Survey ID") })
+			@ApiResponse(code = 400, message = "Id not found for the given Customer Survey ID") })
 	@PostMapping
-	public ResponseEntity<ResponseStructure<CustomerSurveyDto>> saveCustomer(@Valid @RequestBody CustomerSurvey survey,@Valid @RequestParam int customerId)
-	{
-		
-		return service.saveCustomerSurvey(survey,customerId);
+	public ResponseEntity<ResponseStructure<CustomerSurveyDto>> saveCustomer(@Valid @RequestBody CustomerSurvey survey,
+			@Valid @RequestParam int customerId) {
+
+		return service.saveCustomerSurvey(survey, customerId);
 	}
-	
-	
+
 	@ApiOperation(value = "Update  Customer Survey", notes = "API is used to Save Customer Survey ")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "succesfully Saved"),
-	@ApiResponse(code = 400, message = "Id not found for the given Customer Survey ID") })
+			@ApiResponse(code = 400, message = "Id not found for the given Customer Survey ID") })
 	@PutMapping
-	public ResponseEntity<ResponseStructure<CustomerSurveyDto>> updateCustomerSurvey( @RequestParam int id,@Valid @RequestBody CustomerSurvey survey)
-	{
-		
-		return service.updateCustomerSurvey(id, survey);
+	public ResponseEntity<ResponseStructure<CustomerSurveyDto>> updateCustomerSurvey(
+			@RequestParam int customer_surveyId, @Valid @RequestBody CustomerSurvey survey) {
+
+		return service.updateCustomerSurvey(customer_surveyId, survey);
 	}
-	
-	
+
 	@ApiOperation(value = "Find  Customer Survey Based on Id", notes = "API is used to Save Customer Survey ")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "succesfully Saved"),
-	@ApiResponse(code = 400, message = "Id not found for the given Customer Survey ID") })
+			@ApiResponse(code = 400, message = "Id not found for the given Customer Survey ID") })
 	@GetMapping
-	public ResponseEntity<ResponseStructure<CustomerSurveyDto>> findSurveyById(@RequestParam int id)
-	{
-		
-		return service.findCustomerSurveybyId(id);
+	public ResponseEntity<ResponseStructure<CustomerSurveyDto>> findSurveyById(@RequestParam int customer_surveyId) {
+
+		return service.findCustomerSurveybyId(customer_surveyId);
 	}
-	
-	
+
 	@ApiOperation(value = "Delete  Customer Survey", notes = "API is used to Save Customer Survey ")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "succesfully Saved"),
-	@ApiResponse(code = 400, message = "Id not found for the given Customer Survey ID") })
+			@ApiResponse(code = 400, message = "Id not found for the given Customer Survey ID") })
 	@DeleteMapping
-	public ResponseEntity<ResponseStructure<CustomerSurveyDto>> deleteCustomerSurveyByID(@RequestParam int id)
-	{
-		
-		return service.deleteCustomerSurveyById(id);
-	}
-	
-	
-	
-	
-}
-	
+	public ResponseEntity<ResponseStructure<CustomerSurveyDto>> deleteCustomerSurveyByID(
+			@RequestParam int customer_surveyId) {
 
+		return service.deleteCustomerSurveyById(customer_surveyId);
+	}
+
+}

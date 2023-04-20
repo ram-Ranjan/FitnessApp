@@ -11,7 +11,10 @@ public class ExerciseDto {
 	
 	private int exerciseId;
 	private String exerciseName;
-	private int exerciseReps;
+	private String exerciseOverview;
+	private String exerciseInstructions;
+	private String exerciseEquipment;
+	private int exerciseRepsPerSet;
 	private int exerciseDurationInMinutes;
 	private String exerciseMuscleTargeted;
 	
