@@ -26,10 +26,8 @@ public class WorkoutPlanService {
 	private WorkoutPlanDao dao;
 	@Autowired
 	private WorkoutPlanDto dto;
-
 	@Autowired
 	private AdminDao adminDao;
-
 	@Autowired
 	private DtoConfig dtoConfig;
 
